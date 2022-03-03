@@ -16,7 +16,7 @@ export default {
         entityName: config("main.qgamification.entityNames.activity"),
         apiRoute: 'apiRoutes.qgamification.activities',
         permission: 'igamification.categories',
-        extraFormFields: 'igamification.crud-fields.categories',
+        extraFormFields: 'igamification.crud-fields.activities',
         create: {
           title: this.$tr('igamification.cms.newActivity'),
         },

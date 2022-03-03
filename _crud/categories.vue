@@ -41,7 +41,7 @@ export default {
               value: null,
               type: 'treeSelect',
               props: {
-                clearable : true,
+                clearable: true,
                 label: this.$tr('isite.cms.form.parent')
               },
               loadOptions: {
@@ -53,7 +53,7 @@ export default {
         },
         update: {
           title: this.$tr('igamification.cms.updateCategory'),
-          requestParams: {include: 'parent'}
+          requestParams: {include: 'parent,fields'}
         },
         delete: true,
         formLeft: {
@@ -68,6 +68,14 @@ export default {
               rules: [
                 val => !!val || this.$tr('isite.cms.message.fieldRequired')
               ],
+            },
+          },
+          subtitle: {
+            value: '',
+            type: 'input',
+            isTranslatable: true,
+            props: {
+              label: this.$tr('isite.cms.label.subtitle'),
             },
           },
           systemName: {
