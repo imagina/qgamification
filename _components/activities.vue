@@ -25,7 +25,7 @@
           <!--Activities-->
           <div class="row q-gutter-y-sm">
             <q-btn v-for="(activity, keyActivity) in activities" :key="keyActivity" color="blue-grey"
-                   rounded outline :label="activity.title" class="full-width"
+                   rounded outline :label="activity.title" class="full-width" no-caps
                    @click="openActivity(activity)"/>
           </div>
         </div>
