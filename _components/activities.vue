@@ -103,9 +103,21 @@ export default {
         }
         //Request
         this.$crud.index('apiRoutes.qgamification.activities', requestParams).then(response => {
+          //Get userRoles
+          let userRoles = this.$store.state.quserAuth.userData.roles.map(role => role.id)
           //Set only activities without complete
           this.activities = response.data.filter(item => {
-            if (!item.userCompleted) return item
+            if (!item.userCompleted) {
+              //Get role id from activity
+              let activityRoles = (item.options?.roles || []).map(item => parseInt(item))
+              //Check if current user has access to activity
+              let hasAccess = false
+              userRoles.forEach(userRole => {
+                if (activityRoles.includes(userRole)) hasAccess = true
+              })
+              //Response
+              if (hasAccess) return item
+            }
           })
           resolve(response.data)
         }).catch(error => {

@@ -114,7 +114,7 @@ export default {
               apiRoute: 'apiRoutes.qgamification.statuses'
             }
           },
-          roleId: {
+          roles: {
             value: [],
             type: 'select',
             isFakeField : true,
