@@ -114,11 +114,30 @@ export default {
               apiRoute: 'apiRoutes.qgamification.statuses'
             }
           },
+          roleId: {
+            value: [],
+            type: 'select',
+            isFakeField : true,
+            loadOptions: {
+              apiRoute: 'apiRoutes.quser.roles',
+              select: {label: 'name', id: 'id'},
+            },
+            props: {
+              label: `${this.$trp('isite.cms.label.role')}*`,
+              multiple : true,
+              rules: [
+                val => !!val || this.$tr('isite.cms.message.fieldRequired')
+              ],
+            }
+          },
           categoryId: {
             value: null,
             type: 'treeSelect',
             props: {
-              label: this.$tr('isite.cms.form.category')
+              label: this.$tr('isite.cms.form.category')+'*',
+              rules: [
+                val => !!val || this.$tr('isite.cms.message.fieldRequired')
+              ],
             },
             loadOptions: {
               apiRoute: 'apiRoutes.qgamification.categories',
