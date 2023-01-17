@@ -31,6 +31,7 @@ export default {
               align: 'left', classes: 'ellipsis', style: 'max-width : 250px',
               format: val => val ? val.map(item => item.title).join(', ') : '-'
             },
+            {name: 'type', label: this.$tr('isite.cms.form.type'), field: 'typeName', align: 'left'},
             {
               name: 'created_at', label: this.$tr('isite.cms.form.createdAt'), field: 'createdAt', align: 'left',
               format: val => val ? this.$trd(val) : '-',
@@ -94,13 +95,6 @@ export default {
           }
         },
         formRight: {
-          url: {
-            value: null,
-            type: 'input',
-            props: {
-              label: 'URL',
-            },
-          },
           status: {
             value: '1',
             type: 'select',
@@ -114,17 +108,66 @@ export default {
               apiRoute: 'apiRoutes.qgamification.statuses'
             }
           },
+          type: {
+            value: 1,
+            type: 'select',
+            props: {
+              label: this.$tr('isite.cms.form.type'),
+            },
+            loadOptions: {
+              apiRoute: 'apiRoutes.qgamification.types'
+            }
+          },
+          url: {
+            value: null,
+            type: 'input',
+            required: true,
+            props: {
+              label: 'URL *',
+              vIf: ['1', '2'].includes(this.crudInfo.type)
+            },
+          },
+          formId: {
+            type: 'crud',
+            required: true,
+            props: {
+              required: true,
+              crudType: 'select',
+              crudData: import('@imagina/qform/_crud/crudForms'),
+              crudProps: {
+                label: `${this.$tr('isite.cms.label.form')}*`,
+                vIf: ['3'].includes(this.crudInfo.type)
+              },
+              config: {
+                options: {
+                  label: 'title', value: 'id'
+                }
+              },
+            },
+          },
+          externlScript: {
+            value: null,
+            type: 'input',
+            isFakeField: true,
+            required: true,
+            props: {
+              label: 'Script *',
+              type: 'textarea',
+              rows: 2,
+              vIf: ['4'].includes(this.crudInfo.type)
+            }
+          },
           roles: {
             value: [],
             type: 'select',
-            isFakeField : true,
+            isFakeField: true,
             loadOptions: {
               apiRoute: 'apiRoutes.quser.roles',
               select: {label: 'name', id: 'id'},
             },
             props: {
               label: `${this.$trp('isite.cms.label.role')}*`,
-              multiple : true,
+              multiple: true,
               rules: [
                 val => !!val || this.$tr('isite.cms.message.fieldRequired')
               ],
@@ -134,7 +177,7 @@ export default {
             value: null,
             type: 'treeSelect',
             props: {
-              label: this.$tr('isite.cms.form.category')+'*',
+              label: this.$tr('isite.cms.form.category') + '*',
               rules: [
                 val => !!val || this.$tr('isite.cms.message.fieldRequired')
               ],

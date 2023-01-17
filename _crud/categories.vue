@@ -25,6 +25,7 @@ export default {
             {name: 'id', label: this.$tr('isite.cms.form.id'), field: 'id', style: 'width: 50px'},
             {name: 'name', label: this.$tr('isite.cms.form.title'), field: 'title', align: 'rigth'},
             {name: 'systemName', label: this.$tr('isite.cms.form.systemName'), field: 'systemName', align: 'left'},
+            {name: 'status', label: this.$tr('isite.cms.form.status'), field: 'status', align: 'left'},
             {
               name: 'parent', label: this.$tr('isite.cms.form.parent'), field: 'parent', align: 'left',
               format: val => val ? (val.title ? val.title : '-') : '-'
@@ -101,6 +102,19 @@ export default {
           }
         },
         formRight: {
+          status: {
+            value: '1',
+            type: 'select',
+            props: {
+              label: `${this.$tr('isite.cms.form.status')}*`,
+              rules: [
+                val => !!val || this.$tr('isite.cms.message.fieldRequired')
+              ],
+            },
+            loadOptions: {
+              apiRoute: 'apiRoutes.qgamification.statuses'
+            }
+          },
           parentId: {
             value: 0,
             type: 'treeSelect',

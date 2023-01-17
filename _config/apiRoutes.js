@@ -9,4 +9,5 @@ export default {
   activities: `${urlBase}/activities`,
   categories: `${urlBase}/categories`,
   statuses: `${urlBase}/statuses`,
+  types: `${urlBase}/types`,
 }
