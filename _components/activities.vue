@@ -1,44 +1,69 @@
 <template>
-  <div id="gamificationActivities" class="box relative-positions" v-if="activities.length">
-    <!--Content-->
-    <div id="content" class="q-py-sm q-px-lg" v-if="activities.length">
-      <!--title--->
-      <div class="text-secondary text-h4">{{ category.title }}</div>
-      <q-separator class="q-mt-sm q-mb-md"/>
-      <!--Description-->
-      <div class="text-grey-8 q-mb-xl text-subtitle1" v-html="category.description"/>
-      <!--Activities-->
-      <div class="row q-col-gutter-xl">
-        <!--Image-->
-        <div class="col-12 col-md-6 text-center">
-          <img style="max-width: 70%" :src="category.mediaFiles.mainimage.mediumThumb">
-        </div>
-        <!--Activities-->
-        <div class="col-12 col-md-6">
-          <!--Category Subtitle-->
-          <div v-if="category.subtitle">
-            <div class="text-center text-blue-grey text-subtitle1">
-              <b>{{ category.subtitle }}</b>
-            </div>
-            <q-separator class="q-mt-sm q-mb-md"/>
+  <div>
+    <q-item v-if="mode === 'menu'">
+      <div class="q-py-sm q-px-md">
+        <div class="text-subtitle1 text-primary">{{ label }}</div>
+        <!--Separator-->
+        <q-separator class="q-my-sm"/>
+        <!-- Description -->
+        <div class="text-caption text-blue-grey">{{ activities.length ? description : $trp('isite.cms.label.noActivities') }}</div>
+        <!--Actions-->
+        <q-list v-if="activities.length" separator class="no-shadow" >
+          <q-item v-for="(activity, keyActivity) in activities" :key="keyActivity" clickable v-ripple
+                  v-close-popup @click.native="openActivity(activity)">
+            <q-item-section class="text-blue-grey">
+              <div>
+                {{ activity.title }}
+              </div>
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </div>
+    </q-item>
+    <div v-else-if="mode === 'card' && activities.length" id="gamificationActivities" class="box relative-positions">
+      <!-- Content -->
+      <div id="content" class="q-py-sm q-px-lg">
+        <!-- title -->
+        <div class="box-title">{{ category.title }}</div>
+        <q-separator class="q-mt-sm q-mb-md"/>
+        <!-- Description -->
+        <div class="text-grey-8 q-mb-xl text-body2" v-html="category.description"/>
+        <!-- Activities -->
+        <div class="row q-col-gutter-xl">
+          <!-- Image -->
+          <div class="col-12 col-md-6 text-center">
+            <img style="max-width: 70%; border-radius: 5px;" :src="category.mediaFiles.mainimage.mediumThumb">
           </div>
-          <!--Activities-->
-          <div class="row q-gutter-y-sm">
-            <q-btn v-for="(activity, keyActivity) in activities" :key="keyActivity" color="blue-grey"
-                   rounded outline :label="activity.title" class="full-width" no-caps
-                   @click="openActivity(activity)"/>
+          <!-- Activities -->
+          <div class="col-12 col-md-6">
+            <!-- Category Subtitle -->
+            <div v-if="category.subtitle">
+              <div class="text-center box-title">
+                <b>{{ category.subtitle }}</b>
+              </div>
+              <q-separator class="q-mt-sm q-mb-md"/>
+            </div>
+            <!-- Activities -->
+            <div class="row q-gutter-y-sm">
+              <q-btn v-for="(activity, keyActivity) in activities" :key="keyActivity" color="blue-grey"
+                    rounded outline :label="activity.title" class="full-width text-body2" no-caps
+                    @click="openActivity(activity)"/>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <!--Loading-->
     <inner-loading :visible="loading"/>
   </div>
+
 </template>
 <script>
 export default {
   props: {
-    systemName: {default: false}
+    systemName: {default: false},
+    mode: {default: 'card'},
+    label: {type: String, default: ''},
+    description: {type: String, default: ''},
   },
   components: {},
   watch: {},
