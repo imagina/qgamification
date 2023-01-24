@@ -53,6 +53,16 @@
         </div>
       </div>
     </div>
+    <!--Form r-->
+    <master-modal v-model="modal.form.show" :title="modal.form.title" :customPosition="true">
+      <!--Content-->
+      <dynamic-form :form-id="modal.form.formId" @sent="modal.form.sent = true" v-if="modal.form.formId" :description="modal.form.description"/>
+    </master-modal>
+    <master-modal v-model="modal.script.show" :title="modal.script.title" :customPosition="true">
+      <div id="content-script-modal">
+        <p v-html="modal.script.description" />
+      </div>
+    </master-modal>
     <inner-loading :visible="loading"/>
   </div>
 
@@ -66,23 +76,67 @@ export default {
     description: {type: String, default: ''},
   },
   components: {},
-  watch: {},
   mounted() {
     this.$nextTick(function () {
       this.init()
+      console.log(this.formElementScript);
     })
+  },
+  watch: {
+    'modal.script.show': (newValue) => {
+      if (!newValue) {
+        const firstElement = document.getElementsByClassName("b24-window-mounts")[0];
+        const scripts = document.body.getElementsByTagName("script");
+        const script = scripts[scripts.length - 1];
+        firstElement?.remove();
+        script?.remove();
+      }
+    }
   },
   data() {
     return {
       loading: false,
       category: null,
-      activities: []
+      activities: [],
+      modal: {
+        form: {
+          show: false,
+          loading: true,
+          formId: undefined,
+          sent: false,
+          title: '',
+          description: ''
+        },
+        script: {
+          show: false,
+          loading: true,
+          title: '',
+          description: ''
+        },
+      },
+      formElementScript: null,
     }
   },
   computed: {},
   methods: {
     init() {
       this.getData(true)
+    },
+    //get attributes script
+    getAttrsScript(script){
+      const regexAttrs = /<[^/]+?(?:\".*?\"|'.*?'|.*?)*?>/;
+      let attrs = script.match(regexAttrs)[0].split(" ");
+      let lastAttr = attrs[attrs.length - 1];
+      lastAttr = lastAttr.slice(0, lastAttr.length - 1);
+      attrs[attrs.length - 1] = lastAttr;
+      attrs.shift();
+      return attrs;
+    },
+    //return script code
+    getScriptCode(script){
+      const indexCloseFirstTag = script.indexOf('>') + 1;
+      const indexOpenLastTag = script.lastIndexOf('<');
+      return script.slice(indexCloseFirstTag, indexOpenLastTag);
     },
     //get data
     async getData(refresh = false) {
@@ -152,11 +206,67 @@ export default {
     },
     //Open activity
     openActivity(activity) {
+      let handlerActivity;
+      const baseUrl = this.$store.state.qsiteApp.baseUrl;
+      switch (activity.type) {
+        case 1: {
+          handlerActivity = () => {
+            this.$router.push(activity.url);
+          }
+          break;
+        }
+        case 2: {
+          handlerActivity = () => {
+            this.$helper.openExternalURL(`${activity.url}`, true)
+          }
+          break;
+        }
+        case 3: {
+          handlerActivity = () => {
+            this.modal.form.formId = activity.formId;
+            this.modal.form.show = true;
+            this.modal.form.title = activity.title;
+            this.modal.form.description = activity.description;
+          }
+          break;
+        }
+        case 4: {
+          handlerActivity = () => {
+            const script = activity.options.externlScript;
+            const attrs = this.getAttrsScript(script);
+            const scriptTag = document.createElement("script");
+            attrs.forEach(string => {
+              const attr = string.split("=");
+              const key = attr[0].replace(/"/g, '').replace(/\\/g, '');
+              const value = attr[1].replace(/"/g, '').replace(/\\/g, '');
+              scriptTag.setAttribute(key, value);
+            });
+            const scriptCode = this.getScriptCode(script);
+            scriptTag.appendChild(document.createTextNode(scriptCode));
+            document.body.appendChild(scriptTag);
+            setTimeout(() => {
+              this.formElementScript = document.getElementsByClassName("b24-form")[0];      
+              this.modal.script.show = true;
+              this.modal.script.title = activity.title;
+              this.modal.script.description = activity.description;
+              setTimeout(() => {
+                const contentModal = document.getElementById("content-script-modal");
+                if (this.formElementScript) contentModal.appendChild(this.formElementScript);
+                this.modal.script.loading = false;
+              }, 1000);
+            }, 1000);     
+          }
+          break;
+        }
+        default: {
+          break;
+        }
+      }
       this.$alert.info({
         mode: 'modal',
         title: activity.title,
         message: activity.description,
-        actions: !activity.url ? [] : [
+        actions: [
           {
             label: this.$tr('isite.cms.label.close'),
             color: 'grey',
@@ -164,10 +274,7 @@ export default {
           {
             label: this.$tr('isite.cms.label.show'),
             color: 'green',
-            handler: () => {
-              let baseUrl = this.$store.state.qsiteApp.baseUrl
-              this.$helper.openExternalURL(`${baseUrl}/${activity.url}`, false)
-            }
+            handler: handlerActivity
           }
         ]
       })
