@@ -199,6 +199,14 @@ export default {
               requestParams: {include: 'parent'}
             }
           },
+          icon: {
+            value: 'fas fa-dice',
+            type: 'selectIcon',
+            isFakeField : true,
+            props: {
+              label: this.$tr('isite.cms.form.icon')
+            }
+          },
           mediasSingle: {
             name: 'mediasSingle',
             value: {},

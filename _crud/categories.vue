@@ -130,6 +130,14 @@ export default {
               requestParams: {include: 'parent', filter: {status: 1}}
             }
           },
+          icon: {
+            value: 'fas fa-gamepad',
+            type: 'selectIcon',
+            isFakeField : true,
+            props: {
+              label: this.$tr('isite.cms.form.icon')
+            }
+          },
           mediasSingle: {
             name: 'mediasSingle',
             value: {},
