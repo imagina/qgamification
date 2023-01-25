@@ -282,7 +282,6 @@ export default {
           const fields = activity.form.fields;
           const dynamicFields = fields.map((field, fieldKey) => field.dynamicField);
           const blockForm = [{name: 'block1', fields: dynamicFields}];
-          console.log(objectForm);
           this.modal.form.show = true;
           this.modal.form.title = activity.title;
           this.modal.form.description = activity.description;
