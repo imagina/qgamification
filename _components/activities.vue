@@ -69,7 +69,7 @@
     </q-btn>
     <!--Form-->
     <master-modal v-model="modal.form.show" :title="modal.form.title" :customPosition="true">
-      <dynamic-form :form-id="modal.form.formId" @sent="modal.form.sent = true" v-if="modal.form.formId"
+      <dynamic-form :blocks="modal.form.blocks" @sent="modal.form.sent = true" v-if="modal.form.blocks"
                     :description="modal.form.description"/>
     </master-modal>
     <master-modal v-model="modal.script.show" :title="modal.script.title" :customPosition="true">
@@ -119,7 +119,8 @@ export default {
           formId: undefined,
           sent: false,
           title: '',
-          description: ''
+          description: '',
+          blocks: []
         },
         script: {
           show: false,
@@ -278,10 +279,14 @@ export default {
           break;
         }
         case 3: {
-          this.modal.form.formId = activity.formId;
+          const fields = activity.form.fields;
+          const dynamicFields = fields.map((field, fieldKey) => field.dynamicField);
+          const blockForm = [{name: 'block1', fields: dynamicFields}];
+          console.log(objectForm);
           this.modal.form.show = true;
           this.modal.form.title = activity.title;
           this.modal.form.description = activity.description;
+          this.modal.form.blocks = blockForm;
           break;
         }
         case 4: {
