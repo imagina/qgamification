@@ -115,7 +115,7 @@ export default {
       modal: {
         form: {
           show: false,
-          loading: true,
+          loading: false,
           formId: undefined,
           sent: false,
           title: '',
@@ -248,25 +248,26 @@ export default {
       })
     },
     //send form data
-    async sendFormData(formData){
+    sendFormData(formData){
       const dataObject = {
         ...formData,
         form_id: this.modal.form.formId
       };
       this.modal.form.loading = true;
-      try {
-        const request = await this.$axios.post(`${this.baseUrl}${config('apiRoutes.qform.leads')}`, dataObject);
-        if (request.status === 200) {
+      this.$axios.post(`${this.baseUrl}${config('apiRoutes.qform.leads')}`, dataObject)
+        .then(response => {
+          if (response.status === 200) {
+            this.modal.form.loading = false;
+            this.modal.form.show = false;
+            this.$alert.info({message:`${this.$tr('isite.cms.message.recordCreated')}`})
+          }
+        })
+        .catch(error => {
           this.modal.form.loading = false;
           this.modal.form.show = false;
-          this.$alert.info({message: `${request.data.data}`})
-        }
-      } catch (error) {
-        this.modal.form.loading = false;
-        this.modal.form.show = false;
-        this.$alert.error({message: `${this.$tr('isite.cms.message.errorSendForm')}`})
-        console.error(error);
-      }
+          this.$alert.error({message: `${this.$tr('isite.cms.message.recordNoCreated')}`})
+          console.error(error);
+        });
     },
     //Open activity
     openActivity(activity) {
