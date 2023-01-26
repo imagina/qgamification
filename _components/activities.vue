@@ -69,7 +69,7 @@
     </q-btn>
     <!--Form-->
     <master-modal v-model="modal.form.show" :title="modal.form.title" :customPosition="true">
-      <dynamic-form :form-id="modal.form.formId" @sent="modal.form.sent = true" v-if="modal.form.formId"
+      <dynamic-form :loading="modal.form.loading" :blocks="modal.form.blocks" @submit="formData => sendFormData(formData)" v-if="modal.form.blocks"
                     :description="modal.form.description"/>
     </master-modal>
     <master-modal v-model="modal.script.show" :title="modal.script.title" :customPosition="true">
@@ -115,11 +115,12 @@ export default {
       modal: {
         form: {
           show: false,
-          loading: true,
+          loading: false,
           formId: undefined,
           sent: false,
           title: '',
-          description: ''
+          description: '',
+          blocks: []
         },
         script: {
           show: false,
@@ -246,6 +247,28 @@ export default {
         })
       })
     },
+    //send form data
+    sendFormData(formData){
+      const dataObject = {
+        ...formData,
+        form_id: this.modal.form.formId
+      };
+      this.modal.form.loading = true;
+      this.$axios.post(`${this.baseUrl}${config('apiRoutes.qform.leads')}`, dataObject)
+        .then(response => {
+          if (response.status === 200) {
+            this.modal.form.loading = false;
+            this.modal.form.show = false;
+            this.$alert.info({message:`${this.$tr('isite.cms.message.recordCreated')}`})
+          }
+        })
+        .catch(error => {
+          this.modal.form.loading = false;
+          this.modal.form.show = false;
+          this.$alert.error({message: `${this.$tr('isite.cms.message.recordNoCreated')}`})
+          console.error(error);
+        });
+    },
     //Open activity
     openActivity(activity) {
       let handlerActivity;
@@ -278,10 +301,14 @@ export default {
           break;
         }
         case 3: {
-          this.modal.form.formId = activity.formId;
+          const fields = activity.form.fields;
+          const dynamicFields = fields.map((field, fieldKey) => field.dynamicField);
+          const blockForm = [{name: 'block1', fields: dynamicFields}];
           this.modal.form.show = true;
           this.modal.form.title = activity.title;
           this.modal.form.description = activity.description;
+          this.modal.form.blocks = blockForm;
+          this.modal.form.formId = activity.formId;
           break;
         }
         case 4: {
