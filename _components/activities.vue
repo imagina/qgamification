@@ -69,7 +69,7 @@
     </q-btn>
     <!--Form-->
     <master-modal v-model="modal.form.show" :title="modal.form.title" :customPosition="true">
-      <dynamic-form :blocks="modal.form.blocks" @sent="modal.form.sent = true" v-if="modal.form.blocks"
+      <dynamic-form :loading="modal.form.loading" :blocks="modal.form.blocks" @submit="formData => sendFormData(formData)" v-if="modal.form.blocks"
                     :description="modal.form.description"/>
     </master-modal>
     <master-modal v-model="modal.script.show" :title="modal.script.title" :customPosition="true">
@@ -247,6 +247,27 @@ export default {
         })
       })
     },
+    //send form data
+    async sendFormData(formData){
+      const dataObject = {
+        ...formData,
+        form_id: this.modal.form.formId
+      };
+      this.modal.form.loading = true;
+      try {
+        const request = await this.$axios.post(`${this.baseUrl}${config('apiRoutes.qform.leads')}`, dataObject);
+        if (request.status === 200) {
+          this.modal.form.loading = false;
+          this.modal.form.show = false;
+          this.$alert.info({message: `${request.data.data}`})
+        }
+      } catch (error) {
+        this.modal.form.loading = false;
+        this.modal.form.show = false;
+        this.$alert.error({message: `${this.$tr('isite.cms.message.errorSendForm')}`})
+        console.error(error);
+      }
+    },
     //Open activity
     openActivity(activity) {
       let handlerActivity;
@@ -286,6 +307,7 @@ export default {
           this.modal.form.title = activity.title;
           this.modal.form.description = activity.description;
           this.modal.form.blocks = blockForm;
+          this.modal.form.formId = activity.formId;
           break;
         }
         case 4: {
