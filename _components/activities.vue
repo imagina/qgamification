@@ -1,5 +1,5 @@
 <template>
-  <div class="relative-position">
+  <div id="activitiesComponent" class="relative-position">
     <!-- Card Mode-->
     <div v-if="mode == 'card' && activities.length" class="box relative-positions">
       <!-- Content -->
@@ -69,13 +69,18 @@
     </q-btn>
     <!--Form-->
     <master-modal v-model="modal.form.show" :title="modal.form.title" :customPosition="true">
-      <dynamic-form :loading="modal.form.loading" :blocks="modal.form.blocks" @submit="formData => sendFormData(formData)" v-if="modal.form.blocks"
+      <dynamic-form :loading="modal.form.loading" :blocks="modal.form.blocks"
+                    @submit="formData => sendFormData(formData)" v-if="modal.form.blocks"
                     :description="modal.form.description"/>
     </master-modal>
     <master-modal v-model="modal.script.show" :title="modal.script.title" :customPosition="true">
       <div id="content-script-modal">
         <p v-html="modal.script.description"/>
       </div>
+    </master-modal>
+    <master-modal id="iframeModalActivity" v-model="modal.iframe.show"
+                  :title="category ? category.title : ''" :customPosition="true">
+      <div id="iframeActivity" v-html="modal.iframe.iframe"/>
     </master-modal>
   </div>
 </template>
@@ -128,6 +133,10 @@ export default {
           title: '',
           description: ''
         },
+        iframe: {
+          show: false,
+          iframe: null
+        }
       },
       formElementScript: null,
     }
@@ -248,59 +257,36 @@ export default {
       })
     },
     //send form data
-    sendFormData(formData){
+    sendFormData(formData) {
       const dataObject = {
         ...formData,
         form_id: this.modal.form.formId
       };
       this.modal.form.loading = true;
       this.$axios.post(`${this.baseUrl}${config('apiRoutes.qform.leads')}`, dataObject)
-        .then(response => {
-          if (response.status === 200) {
+          .then(response => {
+            if (response.status === 200) {
+              this.modal.form.loading = false;
+              this.modal.form.show = false;
+              this.$alert.info({message: `${this.$tr('isite.cms.message.recordCreated')}`})
+            }
+          })
+          .catch(error => {
             this.modal.form.loading = false;
             this.modal.form.show = false;
-            this.$alert.info({message:`${this.$tr('isite.cms.message.recordCreated')}`})
-          }
-        })
-        .catch(error => {
-          this.modal.form.loading = false;
-          this.modal.form.show = false;
-          this.$alert.error({message: `${this.$tr('isite.cms.message.recordNoCreated')}`})
-          console.error(error);
-        });
+            this.$alert.error({message: `${this.$tr('isite.cms.message.recordNoCreated')}`})
+            console.error(error);
+          });
     },
     //Open activity
     openActivity(activity) {
       let handlerActivity;
       const baseUrl = this.$store.state.qsiteApp.baseUrl;
       switch (activity.type) {
-        case 1: {
-          this.$alert.info({
-            mode: 'modal',
-            title: activity.title,
-            message: activity.description,
-            actions: [
-              {
-                label: this.$tr('isite.cms.label.close'),
-                color: 'grey',
-              },
-              {
-                label: this.$tr('isite.cms.label.show'),
-                color: 'green',
-                handler: () => {
-                  let baseUrl = this.$store.state.qsiteApp.baseUrl
-                  this.$helper.openExternalURL(`${baseUrl}/${activity.url}`, false)
-                }
-              }
-            ]
-          })
-          break;
-        }
-        case 2: {
+        case 2:
           this.$helper.openExternalURL(`${activity.url}`, true)
           break;
-        }
-        case 3: {
+        case 3:
           const fields = activity.form.fields;
           const dynamicFields = fields.map((field, fieldKey) => field.dynamicField);
           const blockForm = [{name: 'block1', fields: dynamicFields}];
@@ -310,8 +296,7 @@ export default {
           this.modal.form.blocks = blockForm;
           this.modal.form.formId = activity.formId;
           break;
-        }
-        case 4: {
+        case 4:
           const script = activity.options.externlScript;
           const attrs = this.getAttrsScript(script);
           const scriptTag = document.createElement("script");
@@ -336,7 +321,33 @@ export default {
             }, 1000);
           }, 1000);
           break;
-        }
+        case 5:
+          this.modal.iframe = {
+            show: true,
+            iframe: activity.options.iframe
+          }
+          break;
+        default:
+          this.$alert.info({
+            mode: 'modal',
+            title: activity.title,
+            message: activity.description,
+            actions: [
+              {
+                label: this.$tr('isite.cms.label.close'),
+                color: 'grey',
+              },
+              {
+                label: this.$tr('isite.cms.label.show'),
+                color: 'green',
+                handler: () => {
+                  let baseUrl = this.$store.state.qsiteApp.baseUrl
+                  this.$helper.openExternalURL(`${baseUrl}/${activity.url}`, false)
+                }
+              }
+            ]
+          })
+          break;
       }
     },
     //get attributes script
@@ -359,4 +370,8 @@ export default {
 }
 </script>
 <style lang="stylus">
+#iframeModalActivity
+  iframe
+    width 100% !important
+    height 400px
 </style>

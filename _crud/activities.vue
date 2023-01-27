@@ -157,6 +157,16 @@ export default {
               vIf: ['4'].includes(this.crudInfo.type)
             }
           },
+          iframe: {
+            value: null,
+            type: 'input',
+            required: true,
+            isFakeField: true,
+            props: {
+              label: 'Iframe *',
+              vIf: ['5'].includes(this.crudInfo.type)
+            },
+          },
           roles: {
             value: [],
             type: 'select',
@@ -202,7 +212,7 @@ export default {
           icon: {
             value: 'fas fa-dice',
             type: 'selectIcon',
-            isFakeField : true,
+            isFakeField: true,
             props: {
               label: this.$tr('isite.cms.form.icon')
             }
