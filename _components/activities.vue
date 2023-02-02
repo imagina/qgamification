@@ -110,7 +110,7 @@ export default {
         firstElement?.remove();
         script?.remove();
       }
-    }
+    },
   },
   data() {
     return {
@@ -280,8 +280,6 @@ export default {
     },
     //Open activity
     openActivity(activity) {
-      let handlerActivity;
-      const baseUrl = this.$store.state.qsiteApp.baseUrl;
       switch (activity.type) {
         case 2:
           this.$helper.openExternalURL(`${activity.url}`, true)
@@ -300,17 +298,19 @@ export default {
           const script = activity.options.externlScript;
           const attrs = this.getAttrsScript(script);
           const scriptTag = document.createElement("script");
+          let idForm;
           attrs.forEach(string => {
-            const attr = string.split("=");
-            const key = attr[0].replace(/"/g, '').replace(/\\/g, '');
-            const value = attr[1].replace(/"/g, '').replace(/\\/g, '');
+            const attr = string.split('="');
+            const key = attr[0].replace('"', '');
+            const value = attr[1].replace('"', '');
+            if (key === "id") idForm = value.split("-")[1];
             scriptTag.setAttribute(key, value);
           });
           const scriptCode = this.getScriptCode(script);
           scriptTag.appendChild(document.createTextNode(scriptCode));
           document.body.appendChild(scriptTag);
           setTimeout(() => {
-            this.formElementScript = document.getElementsByClassName("b24-form")[0];
+            this.formElementScript = document.getElementsByClassName("b24-form")[0] || document.getElementById(`form-${idForm}`);
             this.modal.script.show = true;
             this.modal.script.title = activity.title;
             this.modal.script.description = activity.description;
@@ -321,7 +321,7 @@ export default {
             }, 1000);
           }, 1000);
           break;
-        case 5:
+        case 5:       
           this.modal.iframe = {
             show: true,
             iframe: activity.options.iframe
@@ -351,13 +351,18 @@ export default {
       }
     },
     //get attributes script
-    getAttrsScript(script) {
+    getAttrsScript(script, split = " ") {
       const regexAttrs = /<[^/]+?(?:\".*?\"|'.*?'|.*?)*?>/;
-      let attrs = script.match(regexAttrs)[0].split(" ");
+      let attrs = script.match(regexAttrs)[0].split(split);
       let lastAttr = attrs[attrs.length - 1];
       lastAttr = lastAttr.slice(0, lastAttr.length - 1);
       attrs[attrs.length - 1] = lastAttr;
-      attrs.shift();
+      if (split === " "){
+        attrs.shift();
+      }else{
+        attrs[0] = attrs[0].split(" ")[1]
+        attrs = attrs.join();
+      };
       return attrs;
     },
     //return script code
