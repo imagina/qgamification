@@ -6,9 +6,9 @@
       <div id="content" class="q-py-sm q-px-lg">
         <!-- title -->
         <div class="box-title">{{ category.title }}</div>
-        <q-separator class="q-mt-sm q-mb-md"/>
+        <q-separator class="q-mt-sm q-mb-md" />
         <!-- Description -->
-        <div class="text-grey-8 q-mb-xl text-body2" v-html="category.description"/>
+        <div class="text-grey-8 q-mb-xl text-body2" v-html="category.description" />
         <!-- Activities -->
         <div class="row q-col-gutter-xl">
           <!-- Image -->
@@ -22,43 +22,41 @@
               <div class="text-center box-title">
                 <b>{{ category.subtitle }}</b>
               </div>
-              <q-separator class="q-mt-sm q-mb-md"/>
+              <q-separator class="q-mt-sm q-mb-md" />
             </div>
             <!-- Activities -->
             <div class="row q-gutter-y-sm">
-              <q-btn v-for="(activity, keyActivity) in activities" :key="keyActivity" color="blue-grey"
-                     rounded outline :label="activity.title" class="full-width text-body2" no-caps
-                     @click="openActivity(activity)"/>
+              <q-btn v-for="(activity, keyActivity) in activities" :key="keyActivity" color="blue-grey" rounded outline
+                :label="activity.title" class="full-width text-body2" no-caps @click="openActivity(activity)" />
             </div>
           </div>
         </div>
       </div>
       <!--- Inner Loading -->
-      <inner-loading :visible="loading"/>
+      <inner-loading :visible="loading" />
     </div>
     <!-- Button Mode -->
-    <q-btn v-if="mode == 'button' && activities.length" v-bind="btnProps"
-           :icon="iconCategory">
+    <q-btn v-if="mode == 'button' && activities.length" v-bind="btnProps" :icon="iconCategory">
       <q-menu>
         <div class="q-py-sm q-px-md">
           <div class="text-subtitle1 text-primary">{{ category.title }}</div>
           <!--Separator-->
-          <q-separator class="q-my-sm"/>
+          <q-separator class="q-my-sm" />
           <!-- Description -->
-          <div class="text-caption text-blue-grey" v-html="category.description"/>
+          <div class="text-caption text-blue-grey" v-html="category.description" />
           <!--Actions-->
           <q-list v-if="activities.length" separator class="no-shadow">
-            <q-item v-for="(activity, keyActivity) in activities" :key="keyActivity" clickable v-ripple
-                    v-close-popup @click.native="openActivity(activity)">
+            <q-item v-for="(activity, keyActivity) in activities" :key="keyActivity" clickable v-ripple v-close-popup
+              @click.native="openActivity(activity)">
               <q-item-section class="text-blue-grey">
                 <div>
                   <q-icon v-if="activity.options.icon" :name="activity.options.icon" class="q-mr-sm" color="primary"
-                          size="xs"/>
+                    size="xs" />
                   {{ activity.title }}
                 </div>
               </q-item-section>
               <q-item-section side>
-                <q-icon name="fa-light fa-chevron-right" size="12px"/>
+                <q-icon name="fa-light fa-chevron-right" size="12px" />
               </q-item-section>
             </q-item>
           </q-list>
@@ -70,25 +68,24 @@
     <!--Form-->
     <master-modal v-model="modal.form.show" :title="modal.form.title" :customPosition="true">
       <dynamic-form :loading="modal.form.loading" :blocks="modal.form.blocks"
-                    @submit="formData => sendFormData(formData)" v-if="modal.form.blocks"
-                    :description="modal.form.description"/>
+        @submit="formData => sendFormData(formData)" v-if="modal.form.blocks" :description="modal.form.description" />
     </master-modal>
     <master-modal v-model="modal.script.show" :title="modal.script.title" :customPosition="true">
       <div id="content-script-modal">
-        <p v-html="modal.script.description"/>
+        <p v-html="modal.script.description" />
       </div>
     </master-modal>
-    <master-modal id="iframeModalActivity" v-model="modal.iframe.show"
-                  :title="category ? category.title : ''" :customPosition="true">
-      <div id="iframeActivity" v-html="modal.iframe.iframe"/>
+    <master-modal id="iframeModalActivity" v-model="modal.iframe.show" :title="category ? category.title : ''"
+      :customPosition="true">
+      <div id="iframeActivity" v-html="modal.iframe.iframe" />
     </master-modal>
   </div>
 </template>
 <script>
 export default {
   props: {
-    systemName: {default: false},
-    mode: {default: 'card'},
+    systemName: { default: false },
+    mode: { default: 'card' },
     btnProps: {
       type: Object, default: () => {
         return {}
@@ -110,7 +107,7 @@ export default {
         firstElement?.remove();
         script?.remove();
       }
-    }
+    },
   },
   data() {
     return {
@@ -206,12 +203,12 @@ export default {
         //Request params to category
         let requestParams = {
           include: 'fields',
-          filter: {field: 'system_name'}
+          filter: { field: 'system_name' }
         }
         //Get category
         this.$axios.get(
-            `${this.baseUrl}${config('apiRoutes.qgamification.categories')}/${this.categorySystemName}`,
-            {params: requestParams}
+          `${this.baseUrl}${config('apiRoutes.qgamification.categories')}/${this.categorySystemName}`,
+          { params: requestParams }
         ).then(response => {
           this.category = response.data.data
           resolve(response.data)
@@ -227,12 +224,12 @@ export default {
         //Requets params
         let requestParams = {
           include: 'users',
-          filter: {categoryId: this.category.id, validateComplete: true}
+          filter: { categoryId: this.category.id, validateComplete: true }
         }
         //Request
         this.$axios.get(
-            `${this.baseUrl}${config('apiRoutes.qgamification.activities')}`,
-            {params: requestParams}
+          `${this.baseUrl}${config('apiRoutes.qgamification.activities')}`,
+          { params: requestParams }
         ).then(response => {
           //Get userRoles
           let userRoles = this.$store.state.quserAuth.userData.roles.map(role => role.id)
@@ -264,24 +261,23 @@ export default {
       };
       this.modal.form.loading = true;
       this.$axios.post(`${this.baseUrl}${config('apiRoutes.qform.leads')}`, dataObject)
-          .then(response => {
-            if (response.status === 200) {
-              this.modal.form.loading = false;
-              this.modal.form.show = false;
-              this.$alert.info({message: `${this.$tr('isite.cms.message.recordCreated')}`})
-            }
-          })
-          .catch(error => {
+        .then(response => {
+          if (response.status === 200) {
             this.modal.form.loading = false;
             this.modal.form.show = false;
-            this.$alert.error({message: `${this.$tr('isite.cms.message.recordNoCreated')}`})
-            console.error(error);
-          });
+            this.$alert.info({ message: `${this.$tr('isite.cms.message.recordCreated')}` })
+          }
+        })
+        .catch(error => {
+          this.modal.form.loading = false;
+          this.modal.form.show = false;
+          this.$alert.error({ message: `${this.$tr('isite.cms.message.recordNoCreated')}` })
+          console.error(error);
+        });
     },
     //Open activity
     openActivity(activity) {
-      let handlerActivity;
-      const baseUrl = this.$store.state.qsiteApp.baseUrl;
+      console.log(activity.type);
       switch (activity.type) {
         case 2:
           this.$helper.openExternalURL(`${activity.url}`, true)
@@ -289,7 +285,7 @@ export default {
         case 3:
           const fields = activity.form.fields;
           const dynamicFields = fields.map((field, fieldKey) => field.dynamicField);
-          const blockForm = [{name: 'block1', fields: dynamicFields}];
+          const blockForm = [{ name: 'block1', fields: dynamicFields }];
           this.modal.form.show = true;
           this.modal.form.title = activity.title;
           this.modal.form.description = activity.description;
@@ -297,28 +293,15 @@ export default {
           this.modal.form.formId = activity.formId;
           break;
         case 4:
-          const script = activity.options.externlScript;
-          const attrs = this.getAttrsScript(script);
-          const scriptTag = document.createElement("script");
-          attrs.forEach(string => {
-            const attr = string.split("=");
-            const key = attr[0].replace(/"/g, '').replace(/\\/g, '');
-            const value = attr[1].replace(/"/g, '').replace(/\\/g, '');
-            scriptTag.setAttribute(key, value);
-          });
-          const scriptCode = this.getScriptCode(script);
-          scriptTag.appendChild(document.createTextNode(scriptCode));
-          document.body.appendChild(scriptTag);
+          const script = document.createRange().createContextualFragment(activity.options.externlScript);
+          this.modal.script.show = true;
+          this.modal.script.title = activity.title;
+          this.modal.script.description = activity.description;
+          this.modal.script.loading = true;
           setTimeout(() => {
-            this.formElementScript = document.getElementsByClassName("b24-form")[0];
-            this.modal.script.show = true;
-            this.modal.script.title = activity.title;
-            this.modal.script.description = activity.description;
-            setTimeout(() => {
-              const contentModal = document.getElementById("content-script-modal");
-              if (this.formElementScript) contentModal.appendChild(this.formElementScript);
-              this.modal.script.loading = false;
-            }, 1000);
+            const contentModal = document.getElementById("content-script-modal");
+            contentModal.appendChild(script);
+            this.modal.script.loading = false;
           }, 1000);
           break;
         case 5:
@@ -350,22 +333,6 @@ export default {
           break;
       }
     },
-    //get attributes script
-    getAttrsScript(script) {
-      const regexAttrs = /<[^/]+?(?:\".*?\"|'.*?'|.*?)*?>/;
-      let attrs = script.match(regexAttrs)[0].split(" ");
-      let lastAttr = attrs[attrs.length - 1];
-      lastAttr = lastAttr.slice(0, lastAttr.length - 1);
-      attrs[attrs.length - 1] = lastAttr;
-      attrs.shift();
-      return attrs;
-    },
-    //return script code
-    getScriptCode(script) {
-      const indexCloseFirstTag = script.indexOf('>') + 1;
-      const indexOpenLastTag = script.lastIndexOf('<');
-      return script.slice(indexCloseFirstTag, indexOpenLastTag);
-    }
   }
 }
 </script>
