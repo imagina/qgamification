@@ -70,7 +70,6 @@ export default {
   methods: {
     //Open activity
     openActivity(activity) {
-      console.warn(activity)
       switch (activity.type) {
         case 2:
           this.$helper.openExternalURL(`${activity.url}`, true)

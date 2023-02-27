@@ -36,6 +36,7 @@ export default {
       let component = () => import('@imagina/qgamification/_components/activitiesList/listView')
       //Switch the ciew component type
       if (this.view == "button") component = () => import('@imagina/qgamification/_components/activitiesList/buttonView.vue')
+      if (["cardIcon", "cardImage"].includes(this.view)) component = () => import('@imagina/qgamification/_components/activitiesList/cardView.vue')
       //Response
       return component
     },
@@ -150,7 +151,10 @@ export default {
               //Response
               if (hasAccess) return item
             }
-          })
+          }).map(act => ({
+            ...act,
+            icon : act.options?.icon || 'fa-light fa-check-to-slot'
+          }))
           resolve(response.data.data)
         }).catch(error => {
           resolve([])
