@@ -1,7 +1,8 @@
 <template>
-  <div id="activitiesListComponent">
-    <!--View-->
-    <component :is="viewComponent" v-bind="viewProps" v-if="activities.length"/>
+  <div id="gamificationCategoryViewIndex">
+    <div :id="`gamificationCategory-${category? category.systemName : ''}`">
+      <component v-if="activities.length" :is="viewComponent" v-bind="viewProps"/>
+    </div>
   </div>
 </template>
 <script>
@@ -33,19 +34,29 @@ export default {
     //Instance the view component to render
     viewComponent() {
       //Instance default component
-      let component = () => import('@imagina/qgamification/_components/activitiesList/listView')
+      let component = () => import('@imagina/qgamification/_components/categoryView/card.vue')
       //Switch the ciew component type
-      if (this.view == "button") component = () => import('@imagina/qgamification/_components/activitiesList/buttonView.vue')
-      if (["cardIcon", "cardImage"].includes(this.view)) component = () => import('@imagina/qgamification/_components/activitiesList/cardView.vue')
+      switch (this.view) {
+        case 'button':
+          component = () => import('@imagina/qgamification/_components/categoryView/button.vue')
+          break;
+      }
+      component = () => import('@imagina/qgamification/_components/categoryView/button.vue')
       //Response
       return component
+    },
+    //Instance the activity view component
+    activityViewComponent() {
+      const viewComponentName = this.category.activityView || "listButton"
+      return () => import(`@imagina/qgamification/_components/activityView/${viewComponentName}.vue`)
     },
     //Instance the props for the component
     viewProps() {
       return {
         ...this.$props,
         category: this.category,
-        activities: this.activities
+        activities: this.activities,
+        activityViewComponent: this.activityViewComponent
       }
     },
     //Return the necessary settings for this component
@@ -153,7 +164,7 @@ export default {
             }
           }).map(act => ({
             ...act,
-            icon : act.options?.icon || 'fa-light fa-check-to-slot'
+            icon: act.options?.icon || 'fa-light fa-check-to-slot'
           }))
           resolve(response.data.data)
         }).catch(error => {
