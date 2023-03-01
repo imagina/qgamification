@@ -14,8 +14,7 @@
         <!-- Image -->
         <div class="col-12 col-md-6 text-center">
           <div class="row items-center justify-center full-height full-width">
-            <div :style="`background-image: url('${category.mediaFiles.mainimage.mediumThumb}'); min-height: 150px`"
-                 class="img-as-bg round full-width full-height"/>
+            <img style="max-width: 70%; border-radius: 5px;" :src="category.mediaFiles.mainimage.mediumThumb">
           </div>
         </div>
         <!-- Activities -->

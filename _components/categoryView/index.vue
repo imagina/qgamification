@@ -33,10 +33,11 @@ export default {
   computed: {
     //Instance the view component to render
     viewComponent() {
+      const viewComponentName = this.category.options?.categoryView || "card"
       //Instance default component
       let component = () => import('@imagina/qgamification/_components/categoryView/card.vue')
       //Switch the ciew component type
-      switch (this.view) {
+      switch (viewComponentName) {
         case 'button':
           component = () => import('@imagina/qgamification/_components/categoryView/button.vue')
           break;
