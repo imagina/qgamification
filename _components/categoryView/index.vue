@@ -40,13 +40,16 @@ export default {
         case 'button':
           component = () => import('@imagina/qgamification/_components/categoryView/button.vue')
           break;
+        case 'popup':
+          component = () => import('@imagina/qgamification/_components/categoryView/popup.vue')
+          break;
       }
       //Response
       return component
     },
     //Instance the activity view component
     activityViewComponent() {
-      const viewComponentName = this.category.activityView || "listButton"
+      const viewComponentName = this.category.options?.activityView || "listButton"
       return () => import(`@imagina/qgamification/_components/activityView/${viewComponentName}.vue`)
     },
     //Instance the props for the component
