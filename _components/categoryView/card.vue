@@ -7,8 +7,6 @@
         {{ category.title }}
       </div>
       <q-separator class="q-mt-sm q-mb-md"/>
-      <!-- Description -->
-      <div v-if="category.description" class="text-grey-8 q-mb-md text-body2" v-html="category.description"/>
       <!-- Activities -->
       <div class="row q-col-gutter-md">
         <!-- Image -->
@@ -21,6 +19,8 @@
         <div class="col-12 col-md-6">
           <!--Subtitle-->
           <div class="box-title text-center q-mb-md" v-if="category.subtitle">{{ category.subtitle }}</div>
+          <!-- Description -->
+          <div v-if="category.description" class="text-grey-8 q-mb-md text-body2" v-html="category.description"/>
           <!-- Activities -->
           <component :is="activityViewComponent" :activities="activities"/>
         </div>
