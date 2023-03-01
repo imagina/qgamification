@@ -1,8 +1,9 @@
 <template>
   <div id="activitiesButtonViewComponent" class="relative-position">
     <q-btn :icon="category.icon" rounded :label="category.title" v-bind="btnProps">
-      <q-menu>
-        <div class="q-py-sm q-px-md">
+      <q-menu transition-show="jump-down" transition-hide="jump-up"
+              content-style="border: 3px solid darkcyan; border-radius: 10px">
+        <div class="q-pt-sm q-pb-md q-px-md">
           <div class="text-subtitle1 text-primary">{{ category.title }}</div>
           <!--Separator-->
           <q-separator class="q-my-sm"/>

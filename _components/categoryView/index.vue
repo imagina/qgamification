@@ -41,7 +41,6 @@ export default {
           component = () => import('@imagina/qgamification/_components/categoryView/button.vue')
           break;
       }
-      component = () => import('@imagina/qgamification/_components/categoryView/button.vue')
       //Response
       return component
     },
