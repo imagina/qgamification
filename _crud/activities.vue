@@ -51,6 +51,17 @@ export default {
                 apiRoute: 'apiRoutes.qgamification.categories'
               }
             },
+            type: {
+              value: null,
+              type: 'treeSelect',
+              props: {
+                clearable: true,
+                label: this.$tr('isite.cms.form.type')
+              },
+              loadOptions: {
+                apiRoute: 'apiRoutes.qgamification.types'
+              }
+            },
           }
         },
         update: {
