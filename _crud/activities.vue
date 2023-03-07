@@ -184,7 +184,7 @@ export default {
             required: true,
             isFakeField: true,
             props: {
-              label: this.$tr('igamifications.cms.label.tourElement'),
+              label: this.$tr('igamification.cms.label.tourElement'),
               vIf: ['6'].includes(this.crudInfo.type)
             },
           },
@@ -194,7 +194,7 @@ export default {
             required: true,
             isFakeField: true,
             props: {
-              label: this.$tr('igamifications.cms.label.tourElementPosition'),
+              label: this.$tr('igamification.cms.label.tourElementPosition'),
               vIf: ['6'].includes(this.crudInfo.type),
               options: [
                 {label: this.$tr('isite.cms.label.top'), value: 'top'},
