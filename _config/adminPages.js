@@ -9,7 +9,7 @@ export default {
     page: () => import('@imagina/qcrud/_pages/admin/crudPage'),
     layout: () => import('@imagina/qsite/_layouts/master.vue'),
     title: 'igamification.cms.sidebar.adminActivities',
-    icon: 'fas fa-dice',
+    icon: 'fal fa-dice',
     subHeader: {
       refresh: true,
     }
@@ -24,7 +24,7 @@ export default {
     page: () => import('@imagina/qcrud/_pages/admin/crudPage'),
     layout: () => import('@imagina/qsite/_layouts/master.vue'),
     title: 'igamification.cms.sidebar.adminCategories',
-    icon: 'fas fa-layer-group',
+    icon: 'fal fa-layer-group',
     subHeader: {
       refresh: true,
     }

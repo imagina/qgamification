@@ -4,7 +4,7 @@ const pages = config('pages') // Get Pages from config
 export default [
   {
     title: 'igamification.cms.sidebar.adminGroup',
-    icon: 'fas fa-gamepad',
+    icon: 'fa-light fa-gamepad-modern',
     children: [
       pages.qgamification.activities, // activities setup
       pages.qgamification.categories, // categories setup

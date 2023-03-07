@@ -178,6 +178,32 @@ export default {
               vIf: ['5'].includes(this.crudInfo.type)
             },
           },
+          tourElement: {
+            value: null,
+            type: 'input',
+            required: true,
+            isFakeField: true,
+            props: {
+              label: this.$tr('igamifications.cms.label.tourElement'),
+              vIf: ['6'].includes(this.crudInfo.type)
+            },
+          },
+          tourElementPosition: {
+            value: null,
+            type: 'select',
+            required: true,
+            isFakeField: true,
+            props: {
+              label: this.$tr('igamifications.cms.label.tourElementPosition'),
+              vIf: ['6'].includes(this.crudInfo.type),
+              options: [
+                {label: this.$tr('isite.cms.label.top'), value: 'top'},
+                {label: this.$tr('isite.cms.label.bottom'), value: 'bottom'},
+                {label: this.$tr('isite.cms.label.left'), value: 'left'},
+                {label: this.$tr('isite.cms.label.right'), value: 'right'}
+              ]
+            },
+          },
           roles: {
             value: [],
             type: 'select',
