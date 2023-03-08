@@ -1,8 +1,32 @@
-import toures from '@imagina/qsite/_toures';
+import crud from '@imagina/qcrud/_services/baseService'
 
 class Tour {
     constructor() {
         this.tour = null;
+    }
+
+    async getCategoryBySystemName(systemName){
+        let response = {};
+        await crud.show('apiRoutes.qgamification.categories', systemName, {refresh : true, params : {include: 'activities', filter : {"markAsCompleted": true, "field" : 'system_name'}}}).then(category => {
+            return response = category;
+        })
+        return response;
+    }
+
+    getStepsByCategory(category){
+        let steps = [];
+        if (category.userCompleted) {
+            steps = category.activities.map(step => {
+              return {
+                icon: step.options.icon,
+                title: step.title,
+                content: step.description,
+                element: step.options.tourElement,
+                position: step.options.tourElementPosition
+              }
+            })
+        }
+        return steps;
     }
 
     getButtonsByStep(lengthSteps, index) {
