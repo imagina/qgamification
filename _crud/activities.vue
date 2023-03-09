@@ -1,8 +1,5 @@
 <template></template>
 <script>
-//Component
-import crud from '@imagina/qcrud/_components/crud'
-
 export default {
   data() {
     return {
@@ -250,6 +247,7 @@ export default {
             value: 'fas fa-dice',
             type: 'selectIcon',
             isFakeField: true,
+            required: true,
             props: {
               label: this.$tr('isite.cms.form.icon')
             }

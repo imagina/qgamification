@@ -1,12 +1,22 @@
-<template></template>
+<template>
+  <div>
+    <master-modal v-model="modalActivities.show" :title="actsCrud.title" custom-position
+                  @hide="modalActivities.category  = null">
+      <crud v-if="modalActivities.category"
+            :crud-data="import('@imagina/qgamification/_crud/activities.vue')"
+            :custom-data="actsCrud.customData"/>
+    </master-modal>
+  </div>
+</template>
 <script>
-//Component
-import crud from '@imagina/qcrud/_components/crud'
-
 export default {
   data() {
     return {
-      crudId: this.$uid()
+      crudId: this.$uid(),
+      modalActivities: {
+        show: false,
+        category: null
+      }
     }
   },
   computed: {
@@ -27,8 +37,12 @@ export default {
             {name: 'systemName', label: this.$tr('isite.cms.form.systemName'), field: 'systemName', align: 'left'},
             {name: 'status', label: this.$tr('isite.cms.form.status'), field: 'status', align: 'left'},
             {
-              name: 'parent', label: this.$tr('isite.cms.form.parent'), field: 'parent', align: 'left',
-              format: val => val ? (val.title ? val.title : '-') : '-'
+              name: 'activities',
+              label: this.$trp('isite.cms.label.activity'),
+              field: 'activities',
+              align: 'left',
+              format: val => `${this.$trp('isite.cms.label.activity')}(${val ? val.length : 0})`,
+              action: this.manageCategoryActivities
             },
             {
               name: 'created_at', label: this.$tr('isite.cms.form.createdAt'), field: 'createdAt', align: 'left',
@@ -36,7 +50,7 @@ export default {
             },
             {name: 'actions', label: this.$tr('isite.cms.form.actions'), align: 'left'},
           ],
-          requestParams: {include: 'parent'},
+          requestParams: {include: 'activities'},
           filters: {
             parentId: {
               value: null,
@@ -50,7 +64,14 @@ export default {
                 requestParams: {filter: {status: 1}}
               }
             },
-          }
+          },
+          actions: [
+            {
+              icon: 'fal fa-dice',
+              tooltip: this.$trp('isite.cms.label.activity'),
+              action: this.manageCategoryActivities
+            }
+          ]
         },
         update: {
           title: this.$tr('igamification.cms.updateCategory'),
@@ -133,7 +154,7 @@ export default {
           icon: {
             value: 'fas fa-gamepad',
             type: 'selectIcon',
-            isFakeField : true,
+            isFakeField: true,
             props: {
               label: this.$tr('isite.cms.form.icon')
             }
@@ -155,7 +176,63 @@ export default {
     //Crud info
     crudInfo() {
       return this.$store.state.qcrudComponent.component[this.crudId] || {}
+    },
+    //Return configuration for activities CRUD
+    actsCrud() {
+      //Instance the categoryId
+      const categoryId = this.modalActivities.category?.id || null
+      //Instance the response
+      const response = {
+        title: this.modalActivities.category?.title || '',
+        customData: {
+          read: {
+            showAs: 'drag',
+            drag: {
+              title: {field: 'title'},
+              subTitle: {field: 'systemName'},
+            },
+            noFilter: true,
+            requestParams: {
+              include: null,
+              filter: {categoryId}
+            }
+          },
+          formRight: {
+            categoryId: {
+              value: categoryId,
+              type: 'select',
+              props: {
+                label: this.$tr('isite.cms.form.category') + '*',
+                readonly: true
+              },
+              loadOptions: {
+                apiRoute: 'apiRoutes.qgamification.categories',
+                requestParams: {include: 'parent'}
+              }
+            },
+            categories: {
+              value: [categoryId],
+              type: 'select',
+              props: {
+                label: this.$trp('isite.cms.form.category'),
+                multiple: true,
+                readonly: true,
+              },
+              loadOptions: {
+                apiRoute: 'apiRoutes.qgamification.categories',
+                requestParams: {include: 'parent'}
+              }
+            },
+          }
+        }
+      }
+      return response
     }
   },
+  methods: {
+    manageCategoryActivities(category) {
+      this.modalActivities = {show: true, category}
+    }
+  }
 }
 </script>
