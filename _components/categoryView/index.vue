@@ -143,7 +143,7 @@ export default {
         //Requets params
         let requestParams = {
           include: 'users',
-          filter: {categoryId: this.category.id, validateComplete: true}
+          filter: {categoryId: this.category.id, validateComplete: true, order: {field: 'position', way: 'asc'}}
         }
         //Request
         this.$axios.get(
