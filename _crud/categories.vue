@@ -189,7 +189,7 @@ export default {
             showAs: 'drag',
             drag: {
               title: {field: 'title'},
-              subTitle: {field: 'systemName'},
+              subTitle: {field: 'typeName'},
             },
             noFilter: true,
             requestParams: {
