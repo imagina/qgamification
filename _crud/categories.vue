@@ -194,7 +194,7 @@ export default {
             noFilter: true,
             requestParams: {
               include: null,
-              filter: {categoryId}
+              filter: {categoryId, order: {field: 'position', way: 'asc'}}
             }
           },
           formRight: {
