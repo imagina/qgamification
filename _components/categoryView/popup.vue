@@ -7,7 +7,7 @@
         <img style="max-width: 70%; border-radius: 5px;" :src="category.mediaFiles.mainimage.mediumThumb">
       </div>
       <!--Subtitle-->
-      <div class="box-title text-center q-mb-sm" v-if="category.subtitle">{{ category.subtitle }}</div>
+      <div class="box-title text-center q-mb-sm" v-if="category.summary">{{ category.summary }}</div>
       <!-- Description -->
       <div v-if="category.description" class="text-grey-8 q-mb-md text-body2" v-html="category.description"/>
       <!-- Activities -->

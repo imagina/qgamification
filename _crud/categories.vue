@@ -92,14 +92,6 @@ export default {
               ],
             },
           },
-          subtitle: {
-            value: '',
-            type: 'input',
-            isTranslatable: true,
-            props: {
-              label: this.$tr('isite.cms.label.subtitle'),
-            },
-          },
           systemName: {
             value: '',
             type: 'input',
@@ -109,6 +101,14 @@ export default {
                 val => !!val || this.$tr('isite.cms.message.fieldRequired')
               ],
             }
+          },
+          summary: {
+            value: '',
+            type: 'input',
+            isTranslatable: true,
+            props: {
+              label: this.$tr('isite.cms.label.summary'),
+            },
           },
           description: {
             value: '',

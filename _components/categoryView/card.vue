@@ -18,7 +18,7 @@
         <!-- Activities -->
         <div class="col-12 col-md-6">
           <!--Subtitle-->
-          <div class="box-title text-center q-mb-md" v-if="category.subtitle">{{ category.subtitle }}</div>
+          <div class="box-title text-center q-mb-md" v-if="category.summary">{{ category.summary }}</div>
           <!-- Description -->
           <div v-if="category.description" class="text-grey-8 q-mb-md text-body2" v-html="category.description"/>
           <!-- Activities -->
