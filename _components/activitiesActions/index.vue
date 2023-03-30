@@ -85,7 +85,7 @@ export default {
           this.modal.form.formId = activity.formId;
           break;
         case 4:
-          const script = document.createRange().createContextualFragment(activity.options.externlScript);
+          const script = document.createRange().createContextualFragment(activity.options.externalScript);
           this.modal.script.show = true;
           this.modal.script.title = activity.title;
           this.modal.script.description = activity.description;

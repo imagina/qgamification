@@ -153,7 +153,7 @@ export default {
               },
             },
           },
-          externlScript: {
+          externalScript: {
             value: null,
             type: 'input',
             isFakeField: true,
