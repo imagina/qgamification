@@ -58,15 +58,16 @@ class Tour {
     tour.steps.forEach(({title, icon, content, element, position}, index) => {
       this.callMethod('addStep', {
         //title: `<div class="title-tour text-blue-grey">${title}</div>`,
-        text: `<div class="info-tour">
-                <div class="text-center text-blue-grey text-h6 q-mb-sm">${title}</div>
-                <div class="info-tour-icon text-center q-mb-md">
-                  <i class="${icon} text-primary" style="font-size: 30px"></i>
+        text: `<div class="tour-item-content">
+                <div class="tour-item-icon text-center q-my-md">
+                  <i class="${icon} text-primary"></i>
                 </div>
-                <div class="info-tour-text">${content}</div>
+                <div class="tour-item-title text-center text-blue-grey text-h6 q-mb-sm">${title}</div>
+                <div class="tour-item-text">${content}</div>
               </div>`,
         attachTo: {element: element, on: position},
         buttons: this.getTourActions(index, tour.steps.length),
+        canClickTarget : false
       });
     });
   }
@@ -92,7 +93,7 @@ class Tour {
       }
     }
     //Instance the Response
-    return ((index + 1) == stepLength) ? [actions.finish] :
+    return ((index + 1) == stepLength) ? [actions.back, actions.finish] :
       (index == 0) ? [actions.next] : [actions.back, actions.next]
   }
 
