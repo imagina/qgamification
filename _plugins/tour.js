@@ -6,24 +6,24 @@ class Tour {
   }
 
   //start the tour
-  async start(systemName, forceStart = false) {
+  async start(systemName, params = {}) {
     //Get data
-    let tour = await this.getTourData(systemName)
+    let tour = await this.getTourData(systemName, !params.forceStart)
     //Validate tour
-    if (tour && (!tour.completed || forceStart) && tour.steps.length) {
+    if (tour && (!tour.completed || params.forceStart) && tour.steps.length) {
       //create the tour
-      this.createTour(tour)
+      this.createTour(tour, (params.extraSteps || []))
       //Start the tour
       this.callMethod('start')
     }
   }
 
   //Get the tour information
-  getTourData(systemName) {
+  getTourData(systemName, refresh) {
     return new Promise(resolve => {
       //Request Params
       const requestParams = {
-        refresh: true,
+        refresh: refresh,
         params: {include: 'activities', filter: {"markAsCompleted": true, "field": 'system_name'}}
       }
       //Request
@@ -45,7 +45,7 @@ class Tour {
   }
 
   //Create the tour
-  createTour(tour) {
+  createTour(tour, extraSteps) {
     //Init class tour
     this.tour = new Shepherd.Tour({
       useModalOverlay: true,
@@ -54,8 +54,10 @@ class Tour {
         scrollTo: {behavior: 'smooth', block: 'center'}
       }
     });
+    //Instance the steps
+    const tourSteps = [...tour.steps, ...(extraSteps || [])]
     //Set steps
-    tour.steps.forEach(({title, icon, content, element, position}, index) => {
+    tourSteps.forEach(({title, icon, content, element, position}, index) => {
       this.callMethod('addStep', {
         //title: `<div class="title-tour text-blue-grey">${title}</div>`,
         text: `<div class="tour-item-content">
@@ -66,8 +68,8 @@ class Tour {
                 <div class="tour-item-text">${content}</div>
               </div>`,
         attachTo: {element: element, on: position},
-        buttons: this.getTourActions(index, tour.steps.length),
-        canClickTarget : false
+        buttons: this.getTourActions(index, tourSteps.length),
+        canClickTarget: false
       });
     });
   }
