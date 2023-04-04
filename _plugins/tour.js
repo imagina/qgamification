@@ -62,7 +62,7 @@ class Tour {
                 <div class="tour-item-icon text-center q-my-md">
                   <i class="${icon} text-primary"></i>
                 </div>
-                <div class="tour-item-title text-center text-blue-grey text-h6 q-mb-sm">${title}</div>
+                <div class="tour-item-title text-center text-blue-grey text-h6 q-mb-md">${title}</div>
                 <div class="tour-item-text">${content}</div>
               </div>`,
         attachTo: {element: element, on: position},
