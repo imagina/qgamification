@@ -103,25 +103,8 @@ export default {
           }
           break;
         default:
-          this.$alert.info({
-            mode: 'modal',
-            title: activity.title,
-            message: activity.description,
-            actions: [
-              {
-                label: this.$tr('isite.cms.label.close'),
-                color: 'grey',
-              },
-              {
-                label: this.$tr('isite.cms.label.show'),
-                color: 'green',
-                handler: () => {
-                  let baseUrl = this.$store.state.qsiteApp.baseUrl
-                  this.$helper.openExternalURL(`${baseUrl}/${activity.url}`, false)
-                }
-              }
-            ]
-          })
+          let baseUrl = this.$store.state.qsiteApp.baseUrl
+          this.$helper.openExternalURL(`${baseUrl}/${activity.url}`, false)
           break;
       }
     },
