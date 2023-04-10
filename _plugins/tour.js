@@ -7,14 +7,16 @@ class Tour {
 
   //start the tour
   async start(systemName, params = {}) {
-    //Get data
-    let tour = await this.getTourData(systemName, !params.forceStart)
-    //Validate tour
-    if (tour && (!tour.completed || params.forceStart) && tour.steps.length) {
-      //create the tour
-      this.createTour(tour, (params.extraSteps || []))
-      //Start the tour
-      this.callMethod('start')
+    if (!config('app.disableTours')) {
+      //Get data
+      let tour = await this.getTourData(systemName, !params.forceStart)
+      //Validate tour
+      if (tour && (!tour.completed || params.forceStart) && tour.steps.length) {
+        //create the tour
+        this.createTour(tour, (params.extraSteps || []))
+        //Start the tour
+        this.callMethod('start')
+      }
     }
   }
 
