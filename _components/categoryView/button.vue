@@ -4,7 +4,12 @@
       <q-menu transition-show="jump-down" transition-hide="jump-up"
               content-style="border: 3px solid darkcyan; border-radius: 10px">
         <div class="q-pt-sm q-pb-md q-px-md">
-          <div class="text-subtitle1 text-primary">{{ category.title }}</div>
+          <div class="text-subtitle1 text-primary row justify-between items-center">
+            <!-- Title -->
+            {{ category.title }}
+            <!--Close Button-->
+            <q-btn v-close-popup icon="fas fa-times" round color="blue-grey" unelevated class="btn-small" outline/>
+          </div>
           <!--Separator-->
           <q-separator class="q-my-sm"/>
           <!-- Description -->
