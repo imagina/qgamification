@@ -162,6 +162,8 @@ export default {
               userRoles.forEach(userRole => {
                 if (activityRoles.includes(userRole)) hasAccess = true
               })
+              //Validate activity permission if is neeed
+              if(hasAccess && item.options?.permission) hasAccess = this.$auth.hasAccess(item.options.permission)
               //Response
               if (hasAccess) return item
             }
