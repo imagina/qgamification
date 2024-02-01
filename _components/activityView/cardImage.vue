@@ -39,7 +39,7 @@ export default {
   methods: {}
 }
 </script>
-<style lang="stylus">
+<style lang="sass">
 #gamificationActivityCardImage
   .cardImageActivity
     border-radius 10px

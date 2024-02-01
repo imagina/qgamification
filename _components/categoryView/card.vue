@@ -52,7 +52,7 @@ export default {
   methods: {}
 }
 </script>
-<style lang="stylus">
+<style lang="sass">
 #activitiesCardViewComponent
   .cardActivity
     //border 1px solid $grey-4
