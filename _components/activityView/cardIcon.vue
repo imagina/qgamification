@@ -40,7 +40,7 @@ export default {
   methods: {}
 }
 </script>
-<style lang="sass">
+<style lang="scss">
 #gamificationActivityCardIcon
   .cardIconActivity
     border 1px solid $grey-4
