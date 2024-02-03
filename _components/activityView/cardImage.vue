@@ -40,13 +40,16 @@ export default {
 }
 </script>
 <style lang="scss">
-#gamificationActivityCardImage
-  .cardImageActivity
-    border-radius 10px
-    height 100%
+#gamificationActivityCardImage {
+  .cardImageActivity {
+    border-radius: 10px;
+    height: 100%;
 
-    .cardImage
-      height 120px
-      width 100%
-      border-radius 10px
+    .cardImage {
+      height: 120px;
+      width: 100%;
+      border-radius: 10px;
+    }
+  }
+}
 </style>

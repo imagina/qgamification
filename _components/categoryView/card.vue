@@ -53,15 +53,18 @@ export default {
 }
 </script>
 <style lang="scss">
-#activitiesCardViewComponent
-  .cardActivity
-    //border 1px solid $grey-4
-    //border-radius 10px
-    padding 10px
-    height 100%
+#activitiesCardViewComponent {
+  .cardActivity {
+    //border: 1px solid $grey-4;
+    //border-radius: 10px;
+    padding: 10px;
+    height: 100%;
 
-    .cardImage
-      height 120px
-      width 100%
-      border-radius 10px
+    .cardImage {
+      height: 120px;
+      width: 100%;
+      border-radius: 10px;
+    }
+  }
+}
 </style>

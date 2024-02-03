@@ -41,10 +41,12 @@ export default {
 }
 </script>
 <style lang="scss">
-#gamificationActivityCardIcon
-  .cardIconActivity
-    border 1px solid $grey-4
-    border-radius 10px
-    padding 10px
-    height 100%
+#gamificationActivityCardIcon {
+  .cardIconActivity {
+    border: 1px solid $grey-4;
+    border-radius: 10px;
+    padding: 10px;
+    height: 100%;
+  }
+}
 </style>
