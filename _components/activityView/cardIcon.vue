@@ -3,7 +3,7 @@
     <div class="row q-col-gutter-sm">
       <div v-for="(activity, keyActivity) in activities" :key="keyActivity" class="col-6 col-lg-4 col-xl-3">
         <div class="cardIconActivity cursor-pointer over-effect"
-             @click="$eventBus.$emit('open.gamification.activity', activity)">
+             @click="eventBus.emit('open.gamification.activity', activity)">
           <!-- Icon -->
           <div class="text-center q-mb-md">
             <q-icon :name="activity.icon" color="primary" size="38px"/>
@@ -17,6 +17,7 @@
   </div>
 </template>
 <script>
+import eventBus from '@imagina/qsite/_plugins/eventBus'
 export default {
   props: {
     view: {default: 'cardIcon'},
@@ -34,7 +35,9 @@ export default {
   },
   watch: {},
   data() {
-    return {}
+    return {
+      eventBus
+    }
   },
   computed: {},
   methods: {}

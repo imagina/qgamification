@@ -3,7 +3,7 @@
     <div class="row q-gutter-y-sm">
       <q-btn v-for="(activity, keyActivity) in activities" :key="keyActivity" color="blue-grey" rounded outline
              class="full-width text-body2" no-caps align="left"
-             @click="$eventBus.$emit('open.gamification.activity', activity)">
+             @click="eventBus.emit('open.gamification.activity', activity)">
         <q-icon :name="activity.icon" color="primary"/>
         <div class="text-blue-grey q-ml-md">{{ activity.title }}</div>
       </q-btn>
@@ -11,6 +11,8 @@
   </div>
 </template>
 <script>
+import eventBus from '@imagina/qsite/_plugins/eventBus'
+
 export default {
   props: {
     activities: {
@@ -26,7 +28,9 @@ export default {
   },
   watch: {},
   data() {
-    return {}
+    return {
+      eventBus
+    }
   },
   computed: {},
   methods: {}
