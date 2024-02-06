@@ -18,9 +18,10 @@
   </div>
 </template>
 <script>
+import eventBus from '@imagina/qsite/_plugins/eventBus'
 export default {
   beforeDestroy() {
-    this.$eventBus.$off('open.gamification.activity')
+    eventBus.off('open.gamification.activity')
   },
   props: {},
   components: {},
@@ -37,7 +38,7 @@ export default {
   },
   mounted() {
     this.$nextTick(function () {
-      this.$eventBus.$on('open.gamification.activity', this.openActivity)
+      eventBus.on('open.gamification.activity', this.openActivity)
     })
   },
   data() {
