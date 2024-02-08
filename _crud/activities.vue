@@ -141,7 +141,8 @@ export default {
             props: {
               required: true,
               crudType: 'select',
-              crudData: import('@imagina/qform/_crud/crudForms'),
+              // [ptc]
+              // crudData: import('@imagina/qform/_crud/crudForms'),
               crudProps: {
                 label: `${this.$tr('isite.cms.label.form')}*`,
                 vIf: ['3'].includes(this.crudInfo.type)
