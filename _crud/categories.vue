@@ -3,7 +3,7 @@
     <master-modal v-model="modalActivities.show" :title="actsCrud.title" custom-position
                   @hide="modalActivities.category  = null">
       <crud v-if="modalActivities.category"
-            :crud-data="import('@imagina/qgamification/_crud/activities.vue')"
+            :crud-data="import('modules/qgamification/_crud/activities.vue')"
             :custom-data="actsCrud.customData"/>
     </master-modal>
   </div>
