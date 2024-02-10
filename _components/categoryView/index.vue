@@ -35,14 +35,14 @@ export default {
     viewComponent() {
       const viewComponentName = this.category.options?.categoryView || "card"
       //Instance default component
-      let component = () => import('@imagina/qgamification/_components/categoryView/card.vue')
+      let component = () => import('modules/qgamification/_components/categoryView/card.vue')
       //Switch the ciew component type
       switch (viewComponentName) {
         case 'button':
-          component = () => import('@imagina/qgamification/_components/categoryView/button.vue')
+          component = () => import('modules/qgamification/_components/categoryView/button.vue')
           break;
         case 'popup':
-          component = () => import('@imagina/qgamification/_components/categoryView/popup.vue')
+          component = () => import('modules/qgamification/_components/categoryView/popup.vue')
           break;
       }
       //Response
@@ -51,7 +51,7 @@ export default {
     //Instance the activity view component
     activityViewComponent() {
       const viewComponentName = this.category.options?.activityView || "listButton"
-      return () => import(`@imagina/qgamification/_components/activityView/${viewComponentName}.vue`)
+      return () => import(`modules/qgamification/_components/activityView/${viewComponentName}.vue`)
     },
     //Instance the props for the component
     viewProps() {
