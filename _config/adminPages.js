@@ -5,9 +5,9 @@ export default {
     authenticated: true,
     path: '/gamification/categories/index',
     name: 'gamification.admin.categories',
-    crud: import('@imagina/qgamification/_crud/categories'),
-    page: () => import('@imagina/qcrud/_pages/admin/crudPage'),
-    layout: () => import('@imagina/qsite/_layouts/master.vue'),
+    crud: import('modules/qgamification/_crud/categories'),
+    page: () => import('modules/qcrud/_pages/admin/crudPage'),
+    layout: () => import('layouts/master.vue'),
     title: 'igamification.cms.sidebar.adminGroup',
     icon: 'fa-light fa-gamepad-modern',
     subHeader: {
