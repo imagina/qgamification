@@ -2,7 +2,7 @@
   <div id="activitiesButtonViewComponent" class="relative-position">
     <q-btn :icon="category.icon" rounded :label="category.title" v-bind="btnProps">
       <q-menu transition-show="jump-down" transition-hide="jump-up"
-              content-style="border: 3px solid darkcyan; border-radius: 10px">
+              style="border: 3px solid darkcyan; border-radius: 10px">
         <div class="q-pt-sm q-pb-md q-px-md">
           <div class="text-subtitle1 text-primary row justify-between items-center">
             <!-- Title -->
