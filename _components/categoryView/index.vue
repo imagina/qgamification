@@ -16,6 +16,7 @@ export default {
       }
     }
   },
+  emits: ['loaded'],
   components: {},
   watch: {},
   mounted() {
