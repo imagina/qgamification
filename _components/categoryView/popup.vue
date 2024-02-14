@@ -11,47 +11,43 @@
       <!-- Description -->
       <div v-if="category.description" class="text-grey-8 q-mb-md text-body2" v-html="category.description"/>
       <!-- Activities -->
-      <component :is="activityViewComponent" :activities="activities"/>
+      <component :is="activityDynamicComponent" :activities="activities"/>
     </master-modal>
   </div>
 </template>
 <script>
+import { markRaw } from 'vue';
+
 export default {
   props: {
-    category: {default: null},
-    activityViewComponent: {default: null},
+    category: { default: null },
+    activityViewComponent: { default: null },
     activities: {
       default: () => {
-        return []
+        return [];
       }
     }
   },
   components: {},
   mounted() {
-    this.$nextTick(function () {
-      this.init()
-    })
+    this.$nextTick(function() {
+      this.setActivityDynamicComponent();
+    });
   },
   watch: {},
   data() {
     return {
-      showModal: false,
-      showActivityIndex: 0
-    }
+      activityDynamicComponent: null
+    };
   },
-  computed: {
-    activity() {
-      return this.activities[this.showActivityIndex]
-    }
-  },
+  computed: {},
   methods: {
-    init() {
-      setTimeout(() => {
-        this.showModal = true
-      }, 1000)
+    async setActivityDynamicComponent() {
+      const component = await this.activityViewComponent();
+      this.activityDynamicComponent = markRaw(component.default);
     }
   }
-}
+};
 </script>
 <style lang="scss">
 #activitiesCardViewComponent {

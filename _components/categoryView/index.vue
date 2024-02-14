@@ -6,6 +6,9 @@
   </div>
 </template>
 <script>
+import categoryCard from 'modules/qgamification/_components/categoryView/card.vue'
+import categoryButton from 'modules/qgamification/_components/categoryView/button.vue'
+import categoryPopup from 'modules/qgamification/_components/categoryView/popup.vue'
 export default {
   props: {
     systemName: {default: false},
@@ -17,7 +20,11 @@ export default {
     }
   },
   emits: ['loaded'],
-  components: {},
+  components: {
+    categoryCard,
+    categoryButton,
+    categoryPopup
+  },
   watch: {},
   mounted() {
     this.$nextTick(function () {
@@ -35,19 +42,12 @@ export default {
     //Instance the view component to render
     viewComponent() {
       const viewComponentName = this.category.options?.categoryView || "card"
-      //Instance default component
-      let component = () => import('modules/qgamification/_components/categoryView/card.vue')
-      //Switch the ciew component type
-      switch (viewComponentName) {
-        case 'button':
-          component = () => import('modules/qgamification/_components/categoryView/button.vue')
-          break;
-        case 'popup':
-          component = () => import('modules/qgamification/_components/categoryView/popup.vue')
-          break;
-      }
       //Response
-      return component
+      return {
+        card : categoryCard,
+        button: categoryButton,
+        popup: categoryPopup
+      }[viewComponentName]
     },
     //Instance the activity view component
     activityViewComponent() {

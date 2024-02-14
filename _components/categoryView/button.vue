@@ -15,17 +15,19 @@
           <!-- Description -->
           <div class="text-caption text-blue-grey q-mb-md" v-html="category.description"/>
           <!--Actions-->
-          <component :is="activityViewComponent" :activities="activities"/>
+          <component :is="activityDynamicComponent" :activities="activities"/>
         </div>
       </q-menu>
     </q-btn>
   </div>
 </template>
 <script>
+import { markRaw } from 'vue';
+
 export default {
   props: {
-    category: {default: null},
-    activityViewComponent: {default: null},
+    category: { default: null },
+    activityViewComponent: { default: null },
     activities: {
       default: () => {
         return []
@@ -39,16 +41,24 @@ export default {
   },
   components: {},
   mounted() {
-    this.$nextTick(function () {
-    })
+    this.$nextTick(function() {
+      this.setActivityDynamicComponent();
+    });
   },
   watch: {},
   data() {
-    return {}
+    return {
+      activityDynamicComponent: null
+    };
   },
   computed: {},
-  methods: {}
-}
+  methods: {
+    async setActivityDynamicComponent() {
+      const component = await this.activityViewComponent();
+      this.activityDynamicComponent = markRaw(component.default);
+    }
+  }
+};
 </script>
 <style lang="scss">
 </style>

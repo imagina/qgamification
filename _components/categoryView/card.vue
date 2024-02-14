@@ -3,10 +3,10 @@
     <div class="box relative-positions">
       <!-- title -->
       <div class="box-title text-center">
-        <q-icon :name="category.icon"/>
+        <q-icon :name="category.icon" />
         {{ category.title }}
       </div>
-      <q-separator class="q-mt-sm q-mb-md"/>
+      <q-separator class="q-mt-sm q-mb-md" />
       <!-- Activities -->
       <div class="row q-col-gutter-md">
         <!-- Image -->
@@ -20,37 +20,47 @@
           <!--Subtitle-->
           <div class="box-title text-center q-mb-md" v-if="category.summary">{{ category.summary }}</div>
           <!-- Description -->
-          <div v-if="category.description" class="text-grey-8 q-mb-md text-body2" v-html="category.description"/>
+          <div v-if="category.description" class="text-grey-8 q-mb-md text-body2" v-html="category.description" />
           <!-- Activities -->
-          <component :is="activityViewComponent" :activities="activities"/>
+          <component :is="activityDynamicComponent" :activities="activities" />
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { markRaw } from 'vue';
+
 export default {
   props: {
-    category: {default: null},
-    activityViewComponent: {default: null},
+    category: { default: null },
+    activityViewComponent: { default: null },
     activities: {
       default: () => {
-        return []
+        return [];
       }
     }
   },
   components: {},
   mounted() {
-    this.$nextTick(function () {
-    })
+    this.$nextTick(function() {
+      this.setActivityDynamicComponent();
+    });
   },
   watch: {},
   data() {
-    return {}
+    return {
+      activityDynamicComponent: null
+    };
   },
   computed: {},
-  methods: {}
-}
+  methods: {
+    async setActivityDynamicComponent() {
+      const component = await this.activityViewComponent();
+      this.activityDynamicComponent = markRaw(component.default);
+    }
+  }
+};
 </script>
 <style lang="scss">
 #activitiesCardViewComponent {
