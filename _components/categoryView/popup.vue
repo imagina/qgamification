@@ -4,7 +4,7 @@
                   :icon="category.icon">
       <!-- Image -->
       <div class="row items-center justify-center full-width q-mb-md">
-        <img style="max-width: 70%; border-radius: 5px;" :src="category.mediaFiles.mainimage.mediumThumb">
+        <img style="max-width: 70%; border-radius: 5px;" :src="category?.mediaFiles?.mainimage.mediumThumb">
       </div>
       <!--Subtitle-->
       <div class="box-title text-center q-mb-sm" v-if="category.summary">{{ category.summary }}</div>

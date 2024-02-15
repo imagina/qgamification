@@ -5,7 +5,7 @@
         <div class="cardImageActivity cursor-pointer over-effect"
              @click="eventBus.emit('open.gamification.activity', activity)">
           <!-- Image -->
-          <div :style="`background-image: url('${activity.mediaFiles.mainimage.mediumThumb}')`"
+          <div :style="`background-image: url('${activity.mediaFiles?.mainimage.mediumThumb}')`"
                class="img-as-bg cardImage q-mb-sm"/>
           <!-- Text -->
           <div class="text-blue-grey text-body2 text-bold text-center"> {{ activity.title }}</div>
