@@ -66,9 +66,9 @@ export default {
     //Return the necessary settings for this component
     settings() {
       return {
-        hcStatus: parseInt(this.$store.getters['qsiteApp/getSettingValueByName']('igamification::hcStatus') || 0),
-        hcInternalCategory: this.$store.getters['qsiteApp/getSettingValueByName']('igamification::hcInternalCategory'),
-        hcCentralizedSource: this.$store.getters['qsiteApp/getSettingValueByName']('igamification::hcCentralizedSource'),
+        hcStatus: parseInt(this.$getSetting('igamification::hcStatus') || 0),
+        hcInternalCategory: this.$getSetting('igamification::hcInternalCategory'),
+        hcCentralizedSource: this.$getSetting('igamification::hcCentralizedSource'),
       }
     },
     //Validate if the category is enable and return it
@@ -164,7 +164,7 @@ export default {
                 if (activityRoles.includes(userRole)) hasAccess = true
               })
               //Validate activity permission if is neeed
-              if(hasAccess && item.options?.permission) hasAccess = this.$auth.hasAccess(item.options.permission)
+              if(hasAccess && item.options?.permission) hasAccess = this.$hasAccess(item.options.permission)
               //Response
               if (hasAccess) return item
             }
