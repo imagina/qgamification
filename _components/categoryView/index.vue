@@ -118,7 +118,7 @@ export default {
         if (!this.categorySystemName) return resolve(false)
         //Request params to category
         let requestParams = {
-          include: 'fields',
+          include: 'fields,files',
           filter: {field: 'system_name'}
         }
         //Get category
