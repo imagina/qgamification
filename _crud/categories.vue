@@ -142,7 +142,7 @@ export default {
             props: {
               label: this.$tr('isite.cms.form.parent'),
               options: [
-                {label: this.$tr('isite.cms.label.disabled'), value: 0},
+                {label: this.$tr('isite.cms.label.disabled'), id: 0},
               ],
             },
             loadOptions: {
