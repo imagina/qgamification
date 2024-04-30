@@ -1,7 +1,7 @@
 <template>
   <div id="gamificationCategoryViewIndex">
     <div :id="`gamificationCategory-${category? category.systemName : ''}`">
-      <component v-if="activities.length" :is="viewComponent" v-bind="viewProps"/>
+      <component v-if="activities.length" :is="viewComponent" v-bind="viewProps" />
     </div>
   </div>
 </template>
@@ -11,8 +11,8 @@ import categoryButton from 'modules/qgamification/_components/categoryView/butto
 import categoryPopup from 'modules/qgamification/_components/categoryView/popup.vue'
 export default {
   props: {
-    systemName: {default: false},
-    view: {default: 'card'},
+    systemName: { default: false },
+    view: { default: 'card' },
     btnProps: {
       type: Object, default: () => {
         return {}
@@ -27,7 +27,7 @@ export default {
   },
   watch: {},
   mounted() {
-    this.$nextTick(function () {
+    this.$nextTick(function() {
       this.init()
     })
   },
@@ -44,7 +44,7 @@ export default {
       const viewComponentName = this.category.options?.categoryView || "card"
       //Response
       return {
-        card : categoryCard,
+        card: categoryCard,
         button: categoryButton,
         popup: categoryPopup
       }[viewComponentName]
@@ -101,7 +101,9 @@ export default {
   },
   methods: {
     init() {
-      this.getData(true)
+      if (this.$store.getters['qsiteApp/getConfigApp']('igamification') != undefined) {
+        this.getData(true);
+      }
     },
     //get data
     async getData(refresh = false) {
@@ -120,12 +122,12 @@ export default {
         //Request params to category
         let requestParams = {
           include: 'fields,files',
-          filter: {field: 'system_name'}
+          filter: { field: 'system_name' }
         }
         //Get category
         this.$axios.get(
-            `${this.baseUrl}${config('apiRoutes.qgamification.categories')}/${this.categorySystemName}`,
-            {params: requestParams}
+          `${this.baseUrl}${config('apiRoutes.qgamification.categories')}/${this.categorySystemName}`,
+          { params: requestParams }
         ).then(response => {
           this.category = {
             ...response.data.data,
@@ -144,12 +146,12 @@ export default {
         //Requets params
         let requestParams = {
           include: 'users',
-          filter: {categoryId: this.category.id, validateComplete: true, order: {field: 'position', way: 'asc'}}
+          filter: { categoryId: this.category.id, validateComplete: true, order: { field: 'position', way: 'asc' } }
         }
         //Request
         this.$axios.get(
-            `${this.baseUrl}${config('apiRoutes.qgamification.activities')}`,
-            {params: requestParams}
+          `${this.baseUrl}${config('apiRoutes.qgamification.activities')}`,
+          { params: requestParams }
         ).then(response => {
           //Get userRoles
           let userRoles = this.$store.state.quserAuth.userData.roles.map(role => role.id)
