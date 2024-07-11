@@ -193,7 +193,7 @@ export default {
             },
             noFilter: true,
             requestParams: {
-              include: null,
+              include: "",
               filter: {categoryId, order: {field: 'position', way: 'asc'}}
             }
           },
