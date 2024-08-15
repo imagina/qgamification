@@ -1,21 +1,36 @@
 <template>
   <div id="activitiesButtonViewComponent" class="relative-position">
-    <q-btn :icon="category.icon" rounded :label="category.title" v-bind="btnProps">
-      <q-menu transition-show="jump-down" transition-hide="jump-up"
-              style="border: 3px solid darkcyan; border-radius: 10px">
-        <div class="q-pt-sm q-pb-md q-px-md">
-          <div class="text-subtitle1 text-primary row justify-between items-center">
+    <q-btn 
+      :icon="category.icon" 
+      rounded
+      outline
+      :label="category.title" 
+      v-bind="btnProps"
+    >
+      <q-menu 
+        transition-show="jump-down" 
+        transition-hide="jump-up"
+        class="tw-border-2 tw-border-gray-100 tw-shadow-none"
+        style="border-radius: 15px;"
+      >
+        <div>
+          <section class="row justify-between items-center tw-p-5">
             <!-- Title -->
-            {{ category.title }}
+            <span class="tw-text-xl tw-leading-5 tw-font-bold">{{ category.title }}</span>
             <!--Close Button-->
-            <q-btn v-close-popup icon="fas fa-times" round color="blue-grey" unelevated class="btn-small" outline/>
-          </div>
+            <q-btn unelevated rounded dense padding="none" size="xs" v-close-popup>
+              <q-icon name="fa-regular fa-times" color="grey-7" size="22px" class="cursor-pointer" />
+            </q-btn>
+          </section>
           <!--Separator-->
-          <q-separator class="q-my-sm"/>
-          <!-- Description -->
-          <div class="text-caption text-blue-grey q-mb-md" v-html="category.description"/>
-          <!--Actions-->
-          <component :is="activityDynamicComponent" :activities="activities"/>
+          <q-separator class="tw-bg-gray-200" />
+          <section class="tw-p-5">
+             <!-- Description -->
+             <div class="tw-text-sm tw-mb-5" v-html="category.description"/>
+             
+             <!--Actions-->
+             <component :is="activityDynamicComponent" :activities="activities"/>
+          </section>
         </div>
       </q-menu>
     </q-btn>

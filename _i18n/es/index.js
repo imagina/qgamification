@@ -12,7 +12,8 @@ export default {
       "updateCategory": "Actualizar Categoría",
       "label": {
         "tourElement": "ID del elemento",
-        "tourElementPosition": "Pocisión del Elemento"
+        "tourElementPosition": "Pocisión del Elemento",
+        "categoryView": "Vista de Categoría",
       },
       "activities": {
         "repeatAction": "Tour",
