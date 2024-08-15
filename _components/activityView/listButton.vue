@@ -11,7 +11,9 @@
         @click="eventBus.emit('open.gamification.activity', activity)"
       >
         <q-icon :name="activity.icon" color="primary"/>
-        <div class="tw-text-base tw-ml-2.5">{{ activity.title }}</div>
+        <span class="tw-text-base tw-text-gray-600 tw-ml-2.5">
+          {{ activity.title }}
+        </span>
       </q-btn>
     </div>
   </div>
