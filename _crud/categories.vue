@@ -159,6 +159,32 @@ export default {
               label: this.$tr('isite.cms.form.icon')
             }
           },
+          categoryView: {
+            value: 'card',
+            type: 'select',
+            isFakeField: true,
+            props: {
+              label: `${this.$tr('igamification.cms.label.categoryView')}*`,
+              rules: [
+                val => !!val || this.$tr('isite.cms.message.fieldRequired')
+              ],
+              options: [
+                { label: 'Card', value: 'card', },
+                { label: 'Button', value: 'button', },
+                { label: 'Popup', value: 'popup', },
+              ],
+            },
+          },
+          slug: {
+            value: '',
+            type: 'input',
+            props: {
+              label: `slug*`,
+              rules: [
+                val => !!val || this.$tr('isite.cms.message.fieldRequired')
+              ],
+            },
+          },
           mediasSingle: {
             name: 'mediasSingle',
             value: {},
