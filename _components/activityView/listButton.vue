@@ -1,11 +1,17 @@
 <template>
   <div id="gamificationActivityListButton">
-    <div class="row q-gutter-y-sm">
-      <q-btn v-for="(activity, keyActivity) in activities" :key="keyActivity" color="blue-grey" rounded outline
-             class="full-width text-body2" no-caps align="left"
-             @click="eventBus.emit('open.gamification.activity', activity)">
+    <div class="tw-flex tw-gap-2.5 tw-flex-col">
+      <q-btn 
+        v-for="(activity, keyActivity) in activities" 
+        :key="keyActivity" 
+        rounded
+        flat
+        class="full-width tw-bg-gray-100 tw-px-5 tw-py-3" 
+        no-caps align="left"
+        @click="eventBus.emit('open.gamification.activity', activity)"
+      >
         <q-icon :name="activity.icon" color="primary"/>
-        <div class="text-blue-grey q-ml-md">{{ activity.title }}</div>
+        <div class="tw-text-base tw-ml-2.5">{{ activity.title }}</div>
       </q-btn>
     </div>
   </div>
