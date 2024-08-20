@@ -131,10 +131,11 @@ export default {
               rules: [
                 val => !!val || this.$tr('isite.cms.message.fieldRequired')
               ],
+              options: [
+                { label: this.$tr('isite.cms.label.enabled'), value: 1 },
+                { label: this.$tr('isite.cms.label.disabled'), value: 0 },
+              ],
             },
-            loadOptions: {
-              apiRoute: 'apiRoutes.qgamification.statuses'
-            }
           },
           parentId: {
             value: 0,

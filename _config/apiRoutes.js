@@ -8,6 +8,5 @@ export default {
   version: moduleVersion,
   activities: `${urlBase}/activities`,
   categories: `${urlBase}/categories`,
-  statuses: `${urlBase}/statuses`,
   types: `${urlBase}/types`,
 }
