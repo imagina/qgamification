@@ -112,8 +112,8 @@ export default {
                 val => !!val || this.$tr('isite.cms.message.fieldRequired')
               ],
               options: [
-                { label: this.$tr('isite.cms.label.enabled'), value: 1, },
-                { label: this.$tr('isite.cms.label.disabled'), value: 0, },
+                { label: this.$tr('isite.cms.label.enabled'), value: 1 },
+                { label: this.$tr('isite.cms.label.disabled'), value: 0 },
               ],
             },
           },
