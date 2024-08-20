@@ -12,7 +12,7 @@ class Tour {
       let tour = await this.getTourData(systemName)
 
       //Validate tour
-      if (tour && (!tour.completed || params.forceStart) && tour.steps.length && tour.status == 1) {
+      if (tour && (!tour.completed || params.forceStart) && tour.steps.length) {
         //create the tour
         this.createTour(tour, (params.extraSteps || []))
         //Start the tour
@@ -27,13 +27,19 @@ class Tour {
       //Request Params
       const requestParams = {
         refresh: refresh,
-        params: {include: 'activities', filter: {"markAsCompleted": true, "field": 'system_name'}}
+        params: {
+          include: 'activities', 
+          filter: {
+            "markAsCompleted": true, 
+            "field": 'system_name',
+            "status": 1
+          }
+        }
       }
       //Request
       crud.show('apiRoutes.qgamification.categories', systemName, requestParams).then(response => {
         resolve({
           completed: response.data.userCompleted,
-          status: response.data.status,
           steps: response.data.activities.map(act => ({
             icon: act.options.icon,
             title: act.title,
