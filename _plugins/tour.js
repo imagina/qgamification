@@ -9,9 +9,10 @@ class Tour {
   async start(systemName, params = {}) {
     if (!config('app.disableTours')) {
       //Get data
-      let tour = await this.getTourData(systemName, !params.forceStart)
+      let tour = await this.getTourData(systemName)
+
       //Validate tour
-      if (tour && (!tour.completed || params.forceStart) && tour.steps.length) {
+      if (tour && (!tour.completed || params.forceStart) && tour.steps.length && tour.status == 1) {
         //create the tour
         this.createTour(tour, (params.extraSteps || []))
         //Start the tour
@@ -21,7 +22,7 @@ class Tour {
   }
 
   //Get the tour information
-  getTourData(systemName, refresh) {
+  getTourData(systemName, refresh = false) {
     return new Promise(resolve => {
       //Request Params
       const requestParams = {
@@ -32,6 +33,7 @@ class Tour {
       crud.show('apiRoutes.qgamification.categories', systemName, requestParams).then(response => {
         resolve({
           completed: response.data.userCompleted,
+          status: response.data.status,
           steps: response.data.activities.map(act => ({
             icon: act.options.icon,
             title: act.title,
