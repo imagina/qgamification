@@ -193,7 +193,7 @@ export default {
             props: {
               label: this.$tr('isite.cms.form.firstImage'),
               zone: 'mainimage',
-              entity: "Modules\\Igamification\\Entities\\Category",
+              entity: "Modules\\Igamification\\Models\\Category",
               entityId: null
             }
           }
